@@ -1,0 +1,11 @@
+### macOS template
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+### JetBrains template
+.idea/
+
+### composer
+vendor/
+composer.lock

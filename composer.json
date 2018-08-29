@@ -1,0 +1,17 @@
+{
+    "name": "nofuck/json2php",
+    "description": "Generate php files(PHP class) based on json",
+    "keyword": ["nofuck", "php", "json", "generator", "php file"],
+    "type": "library",
+    "require": {
+      "php": ">=7.1",
+      "nette/php-generator": "~3.1"
+    },
+    "autoload": {
+      "psr-4": {
+        "Json2php\\": "src\\Json2php"
+      }
+    },
+    "bin": ["json2php"],
+    "license": "MIT"
+}
