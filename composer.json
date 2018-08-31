@@ -1,17 +1,27 @@
 {
     "name": "nofuck/json2php",
     "description": "Generate php files(PHP class) based on json",
-    "keyword": ["nofuck", "php", "json", "generator", "php file"],
+    "keywords": [
+        "nofuck",
+        "php",
+        "json",
+        "generator",
+        "php file"
+    ],
     "type": "library",
     "require": {
-      "php": ">=7.1",
-      "nette/php-generator": "~3.1"
+        "php": ">=7.1",
+        "nette/php-generator": "~3.1",
+        "phpunit/phpunit": "~7.3",
+        "cstabor/screw": "~1.0"
     },
     "autoload": {
-      "psr-4": {
-        "Json2php\\": "src\\Json2php"
-      }
+        "psr-4": {
+            "Json2php\\": "src\\Json2php"
+        }
     },
-    "bin": ["json2php"],
+    "bin": [
+        "json2php"
+    ],
     "license": "MIT"
 }
