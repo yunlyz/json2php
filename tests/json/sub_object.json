@@ -1,12 +1,11 @@
 {
   "order_name": "订单名称",
   "merchant_name": "商户名称",
-  "description": "描述",
   "coupon_type": 1,
   "budget": 1000000,
   "daily_budget": 100000,
-  "begin_time": 1534472404,
-  "end_time": 1534472404,
-  "bank_no": 1534472404,
-  "pay_method": 1
+  "sub": {
+    "name": "jay",
+    "age": 23
+  }
 }

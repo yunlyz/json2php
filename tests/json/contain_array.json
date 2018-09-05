@@ -1,0 +1,12 @@
+{
+  "order_name": "订单名称",
+  "merchant_name": "商户名称",
+  "coupon_type": 1,
+  "budget": 1000000,
+  "daily_budget": 100000,
+  "fav": [
+    1,
+    2,
+    3
+  ]
+}
