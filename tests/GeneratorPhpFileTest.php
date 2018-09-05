@@ -4,7 +4,7 @@ namespace tests;
 
 use Json2php\GeneratorPhpFile;
 
-require './bootstrap.php';
+require __DIR__ . '/bootstrap.php';
 
 class GeneratorPhpFileTest extends \PHPUnit\Framework\TestCase
 {

@@ -20,9 +20,9 @@ class GeneratorYiiModel
         } else {
             $class = $file->addClass($className);
         }
+        $class->addExtend('\yii\base\Model');
 
         $obj = json_decode($json);
-
 
         $attrs = [];
         foreach ($obj as $property => $value) {
@@ -62,14 +62,36 @@ class GeneratorYiiModel
         foreach ($attrs as $attr => $aType) {
             $newAttrs[$aType][] = $attr;
         }
+        $rules = [];
+        foreach ($newAttrs as $k => $v) {
+            $s = rtrim(implode(', ', $v), ', ');
+            $rules[] = "[['$s'], '{$k}']";
+        }
+        $ruleString = implode(",\n\t", $rules);
+        $ruleReturn = <<<txt
+return [
+    {$ruleString}
+];
+txt;
 
+        // generator yii2 model rules
         $class->addMethod('rules')
             ->setVisibility('public')
-            ->setBody('return [];');
-
+            ->setBody($ruleReturn);
+        // generator attribute labels method
+        $labels = [];
+        foreach (array_keys((array)$obj) as $k) {
+            $labels[] = "'{$k}' => ''";
+        }
+        $labelString = implode(",\n\t", $labels);
+        $labelReturn = <<<txt
+return [
+    {$labelString}
+];
+txt;
         $class->addMethod('attributeLabels')
             ->setVisibility('public')
-            ->setBody('return [];');
+            ->setBody($labelReturn);
 
         file_put_contents($output . $className . '.php', (new PsrPrinter())->printFile($file));
 

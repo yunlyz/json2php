@@ -35,13 +35,13 @@ class GeneratorClassCommand extends Command
                     exit();
                 }
                 $json = file_get_contents($json);
-                if ($this->validatorJson($json)) {
+                if (!$this->validatorJson($json)) {
                     $output->writeln('Invalid json, please enter the correct json string');
                     exit();
                 }
                 break;
             case 'string':
-                if ($this->validatorJson($json)) {
+                if (!$this->validatorJson($json)) {
                     $output->writeln('Invalid json, please enter the correct json string');
                     exit();
                 }
