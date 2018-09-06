@@ -1,19 +1,15 @@
 # json2php
----------------
 
 ## Introduction
----------------
 Generate php files(PHP class) based on json
 
 ## Installation
----------------
 Via `Composer`:
 ```shell
 composer require nofuck/json2php "*"
 ```
 
 ## Usage
----------------
 Usage is very easy. Can easily generate a PHP file:
 ```php
 $namespace = 'tests\\output\\general';
@@ -121,7 +117,7 @@ Help:
 ./json2php g:d -t string '{"name": "lvyun"}' --namespace "test\\lvyun" -c UserInfo -o .
 ```
 
-Output`UserInfo.php``:
+Output`UserInfo.php`:
 ```php
 <?php
 
