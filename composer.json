@@ -1,6 +1,14 @@
 {
     "name": "nofuck/json2php",
     "description": "Generate php files(PHP class) based on json",
+    "homepage": "https://github.com/nofuck/json2php",
+    "authors": [
+        {
+            "name": "lvyun",
+            "email": "yunlv.go@gmail.com",
+            "homepage": "https://github.com/nofuck"
+        }
+    ],
     "keywords": [
         "nofuck",
         "php",
