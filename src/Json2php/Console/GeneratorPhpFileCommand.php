@@ -50,7 +50,7 @@ class GeneratorPhpFileCommand extends Command
                 $output->writeln('Invalid json type');
                 exit();
         }
-        (new GeneratorPhpFile())->genByJsonStr(
+        (new GeneratorPhpFile())->generator(
             $json,
             $input->getOption('class_name'),
             $input->getOption('namespace'),
