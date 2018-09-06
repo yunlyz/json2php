@@ -2,7 +2,7 @@
 
 namespace Json2php\Console;
 
-use Json2php\GeneratorPhpFile;
+use Json2php\GeneratorYiiModel;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,22 +35,18 @@ class GeneratorYiiModelCommand extends Command
                     exit();
                 }
                 $json = file_get_contents($json);
-                if ($this->validatorJson($json)) {
-                    $output->writeln('Invalid json, please enter the correct json string');
-                    exit();
-                }
                 break;
             case 'string':
-                if ($this->validatorJson($json)) {
-                    $output->writeln('Invalid json, please enter the correct json string');
-                    exit();
-                }
                 break;
             default:
                 $output->writeln('Invalid json type');
                 exit();
         }
-        (new GeneratorPhpFile())->genByJsonStr(
+        if (!$this->validatorJson($json)) {
+            $output->writeln('Invalid json, please enter the correct json string');
+            exit();
+        }
+        (new GeneratorYiiModel())->generator(
             $json,
             $input->getOption('class_name'),
             $input->getOption('namespace'),

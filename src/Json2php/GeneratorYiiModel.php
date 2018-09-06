@@ -5,6 +5,7 @@ namespace Json2php;
 use Nette\PhpGenerator\PhpFile;
 use Nette\PhpGenerator\PsrPrinter;
 use Screw\Str;
+use Stichoza\GoogleTranslate\TranslateClient;
 
 class GeneratorYiiModel
 {
@@ -58,14 +59,19 @@ class GeneratorYiiModel
             $attrs[$lower] = $type;
         }
 
+        // generator yii2 model rules
         $newAttrs = [];
         foreach ($attrs as $attr => $aType) {
             $newAttrs[$aType][] = $attr;
         }
         $rules = [];
+        $callback = function($kv) {
+            return "'{$kv}'";
+        };
         foreach ($newAttrs as $k => $v) {
+            $v = array_map($callback, $v);
             $s = rtrim(implode(', ', $v), ', ');
-            $rules[] = "[['$s'], '{$k}']";
+            $rules[] = "[[$s], '{$k}']";
         }
         $ruleString = implode(",\n\t", $rules);
         $ruleReturn = <<<txt
@@ -73,15 +79,15 @@ return [
     {$ruleString}
 ];
 txt;
-
-        // generator yii2 model rules
         $class->addMethod('rules')
             ->setVisibility('public')
             ->setBody($ruleReturn);
+
         // generator attribute labels method
         $labels = [];
-        foreach (array_keys((array)$obj) as $k) {
-            $labels[] = "'{$k}' => ''";
+        foreach (array_keys($attrs) as $k) {
+            $chinese = str_replace('_', ' ', Str::toSnakeCase($k));
+            $labels[] = "'{$k}' => '{$chinese}'";
         }
         $labelString = implode(",\n\t", $labels);
         $labelReturn = <<<txt

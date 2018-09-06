@@ -6,5 +6,6 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 $app = new \Symfony\Component\Console\Application();
 $app->setName('Json2php');
 $app->setVersion('1.0.0');
-$app->add(new \Json2php\Console\GeneratorClassCommand());
+$app->add(new \Json2php\Console\GeneratorPhpFileCommand());
+$app->add(new \Json2php\Console\GeneratorYiiModelCommand());
 $app->run();

@@ -10,8 +10,11 @@ class GeneratorYiiModelTest extends \PHPUnit\Framework\TestCase
 {
     public function testGenerator()
     {
-        $namespace = 'jay';
+        $namespace = 'tests\\output\\yii2';
         $output = TEST_ROOT . '/output/yii2/';
+        if (!is_dir($output)) {
+            mkdir($output);
+        }
 
         $g = new GeneratorYiiModel();
         $jsonPath = TEST_ROOT . '/json/normal.json';

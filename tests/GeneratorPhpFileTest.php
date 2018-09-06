@@ -10,13 +10,15 @@ class GeneratorPhpFileTest extends \PHPUnit\Framework\TestCase
 {
     public function testGenByJsonStr()
     {
-        $className = 'Demo1';
-        $jsonPath = TEST_ROOT . '/json/normal.json';
-        $namespace = 'jay';
-        $output = TEST_ROOT . '/output/';
+        $namespace = 'tests\\output\\general';
+        $output = TEST_ROOT . '/output/general/';
+        if (!is_dir($output)) {
+            mkdir($output);
+        }
 
         $g = new GeneratorPhpFile();
-        $g->genByJsonStr(file_get_contents($jsonPath), $className, $namespace, $output);
+        $jsonPath = TEST_ROOT . '/json/normal.json';
+        $g->genByJsonStr(file_get_contents($jsonPath), 'Normal', $namespace, $output);
 
         $jsonPath = TEST_ROOT . '/json/contain_array.json';
         $g->genByJsonStr(file_get_contents($jsonPath), 'ContainArray', $namespace, $output);
