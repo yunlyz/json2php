@@ -31,6 +31,9 @@ class GeneratorYiiModelTest extends \PHPUnit\Framework\TestCase
         $jsonPath = __DIR__ . '/json/all_type.json';
         $g::generator(file_get_contents($jsonPath), 'AllType', $namespace, $output);
 
+        $jsonPath = __DIR__ . '/json/yii2_model.json';
+        $g::generator(file_get_contents($jsonPath), 'OrderQueryModel', $namespace, $output);
+
         static::assertTrue(true);
     }
 

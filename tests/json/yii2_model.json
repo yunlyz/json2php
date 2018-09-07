@@ -1,0 +1,15 @@
+{
+    "search_keyword": "id or name",
+    "status": 1,
+    "coupon_type": 1,
+    "begin_time": 1534472404,
+    "end_time": 1534472404,
+    "created_time": {
+        "begin_time": 1534472404,
+        "end_time": 1534472404
+    },
+    "updated_time": {
+        "begin_time": 1534472404,
+        "end_time": 1534472404
+    }
+}

@@ -8,7 +8,7 @@ require __DIR__ . '/bootstrap.php';
 
 class GeneratorPhpFileTest extends \PHPUnit\Framework\TestCase
 {
-    public function testGenByJsonStr()
+    public function testGenerator()
     {
         $namespace = 'tests\\output\\general';
         $output = __DIR__ . '/output/general/';
@@ -30,6 +30,9 @@ class GeneratorPhpFileTest extends \PHPUnit\Framework\TestCase
 
         $jsonPath = __DIR__ . '/json/all_type.json';
         $g::generator(file_get_contents($jsonPath), 'AllType', $namespace, $output);
+
+        $jsonPath = __DIR__ . '/json/yii2_model.json';
+        $g::generator(file_get_contents($jsonPath), 'OrderQueryModel', $namespace, $output);
 
         static::assertTrue(true);
     }
