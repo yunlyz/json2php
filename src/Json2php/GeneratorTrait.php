@@ -28,7 +28,7 @@ trait GeneratorTrait
         $class->addProperty($lower)->setVisibility('private')->addComment("@var {$type}");
         $class->addMethod($getter)->addBody("return \$this->{$lower};")->addComment("@return {$type}");
         $class->addMethod($setter)->setBody("\$this->{$lower} = \${$lower};")
-            ->addComment("@param \${$lower} {$type}")->addParameter($lower);
+            ->addComment("@param {$type} \${$lower}")->addParameter($lower);
 
         return $class;
     }
