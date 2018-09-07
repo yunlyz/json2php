@@ -4,7 +4,6 @@ namespace Json2php;
 
 use Nette\PhpGenerator\PhpFile;
 use Nette\PhpGenerator\PsrPrinter;
-use Screw\Str;
 
 class GeneratorPhpFile
 {
@@ -41,24 +40,10 @@ class GeneratorPhpFile
                     break;
                 }
             }
-            $lower = Str::toLowerCamelCase($property);
-            $upper = Str::toUpperCamelCase($property);
-            $getter = 'get' . $upper;
-            $setter = 'set' . $upper;
-
-            $class->addProperty($lower)
-                ->setVisibility('private')
-                ->addComment("@var {$type}");
-            $class->addMethod($getter)
-                ->addBody("return \$this->{$lower};")
-                ->addComment("@return {$type}");
-            $class->addMethod($setter)
-                ->setBody("\$this->{$lower} = \${$lower};")
-                ->addComment("@param \${$lower} {$type}")
-                ->addParameter($lower);
+            self::getOrSetMethod($class, $property, $type);
         }
         self::createFile($output . $className . '.php', (new PsrPrinter())->printFile($file));
 
-        return ucwords($className);
+        return $className;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Json2php;
 
+use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\PhpFile;
 use Nette\PhpGenerator\PsrPrinter;
 use Screw\Str;
@@ -42,62 +43,58 @@ class GeneratorYiiModel
                     break;
                 }
             }
-            $lower = Str::toLowerCamelCase($property);
-            $upper = Str::toUpperCamelCase($property);
-            $getter = 'get' . $upper;
-            $setter = 'set' . $upper;
-
-            $class->addProperty($lower)
-                ->setVisibility('private')
-                ->addComment("@var {$type}");
-            $class->addMethod($getter)
-                ->addBody("return \$this->{$lower};")
-                ->addComment("@return {$type}");
-            $class->addMethod($setter)
-                ->setBody("\$this->{$lower} = \${$lower};")
-                ->addComment("@param \${$lower} {$type}")
-                ->addParameter($lower);
-            $attrs[$lower] = $type;
+            self::getOrSetMethod($class, $property, $type);
+            $attrs[Str::toLowerCamelCase($property)] = $type;
         }
 
+        // generator yii2 model rules
+        self::addRulesMethod($class, $attrs);
+        // generator attribute labels method
+        self::addAttributeLabelsMethod($class, $attrs);
+        // generator file
+        self::createFile($output . $className . '.php', (new PsrPrinter())->printFile($file));
+
+        return $className;
+    }
+
+    private static function addRulesMethod(ClassType $class, array $attrs): ClassType
+    {
         // generator yii2 model rules
         $newAttrs = [];
         foreach ($attrs as $attr => $aType) {
             $newAttrs[$aType][] = $attr;
         }
+        $innerType = ['string', 'integer'];
         $rules = [];
-        $callback = function($kv) {
-            return "'{$kv}'";
-        };
         foreach ($newAttrs as $k => $v) {
-            $v = array_map($callback, $v);
+            // if type is object, continue
+            if (!in_array($k, $innerType, true)) {
+                continue;
+            }
+            $v = array_map(function($kv) {
+                return "'{$kv}'";
+            }, $v);
             $s = rtrim(implode(', ', $v), ', ');
             $rules[] = "[[$s], '{$k}']";
         }
         $ruleString = implode(",\n\t", $rules);
-        $ruleReturn = <<<txt
-return [
-    {$ruleString}
-];
-txt;
+        $ruleReturn = "return [\n\t{$ruleString}\n];";
         $class->addMethod('rules')->setVisibility('public')->setBody($ruleReturn);
 
-        // generator attribute labels method
+        return $class;
+    }
+
+    private static function addAttributeLabelsMethod(ClassType $class, array $attrs): ClassType
+    {
         $labels = [];
         foreach (array_keys($attrs) as $k) {
             $chinese = str_replace('_', ' ', Str::toSnakeCase($k));
             $labels[] = "'{$k}' => '{$chinese}'";
         }
         $labelString = implode(",\n\t", $labels);
-        $labelReturn = <<<txt
-return [
-    {$labelString}
-];
-txt;
+        $labelReturn = "return [\n\t{$labelString}\n];";
         $class->addMethod('attributeLabels')->setVisibility('public')->setBody($labelReturn);
 
-        self::createFile($output . $className . '.php', (new PsrPrinter())->printFile($file));
-
-        return $className;
+        return $class;
     }
 }
