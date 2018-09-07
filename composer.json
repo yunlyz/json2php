@@ -1,7 +1,7 @@
 {
     "name": "lvyun66/json2php",
     "description": "Generate php files(PHP class) based on json",
-    "homepage": "https://github.com/nofuck/json2php",
+    "homepage": "https://github.com/lvyun66/json2php",
     "authors": [
         {
             "name": "lvyun",
@@ -10,7 +10,7 @@
         }
     ],
     "keywords": [
-        "nofuck",
+        "lvyun66",
         "php",
         "json",
         "generator",

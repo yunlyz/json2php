@@ -5,11 +5,10 @@ namespace Json2php;
 use Nette\PhpGenerator\PhpFile;
 use Nette\PhpGenerator\PsrPrinter;
 use Screw\Str;
-use Stichoza\GoogleTranslate\TranslateClient;
 
 class GeneratorYiiModel
 {
-    public function generator(string $json, $className = null, $namespace = null, $output = null): string
+    public static function generator(string $json, $className = null, $namespace = null, $output = null):string
     {
         $className = $className ? ucwords($className) : 'Generator_' . time();
         $output = $output ?: dirname('./');
@@ -29,12 +28,12 @@ class GeneratorYiiModel
         foreach ($obj as $property => $value) {
             $type = gettype($value);
             if (is_object($value)) {
-                $type = $this->generator(json_encode($value), $property, $namespace, $output);
+                $type = self::generator(json_encode($value), $property, $namespace, $output);
             }
             if (is_array($value)) {
                 foreach ($value as $k => $v) {
                     if (is_object($v)) {
-                        $type = $this->generator(json_encode($value), $property, $namespace, $output);
+                        $type = self::generator(json_encode($value), $property, $namespace, $output);
                     } else {
                         $type = gettype($v) . '[]';
                     }
@@ -65,7 +64,7 @@ class GeneratorYiiModel
             $newAttrs[$aType][] = $attr;
         }
         $rules = [];
-        $callback = function($kv) {
+        $callback = function ($kv) {
             return "'{$kv}'";
         };
         foreach ($newAttrs as $k => $v) {
